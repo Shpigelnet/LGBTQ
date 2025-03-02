@@ -107,10 +107,11 @@
     /* Main Content Screen */
     #main-content {
       display: none;
-      padding: 40px 20px;
+      padding: 40px 0;
       width: 100%;
       max-width: 800px;
       box-sizing: border-box;
+      overflow-x: hidden;
     }
     
     .section {
@@ -119,6 +120,11 @@
       border-radius: 15px;
       padding: 50px;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      width: calc(100% - 40px);
+      max-width: calc(100% - 40px);
+      margin-left: 20px;
+      margin-right: 20px;
+      box-sizing: border-box;
     }
     
     h2 {
@@ -225,6 +231,11 @@
       background-color: #f9f6f0; /* Light beige background */
       border-radius: 20px;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      width: calc(100% - 40px);
+      max-width: calc(100% - 40px);
+      margin-left: 20px;
+      margin-right: 20px;
+      box-sizing: border-box;
     }
     
     .resources-section h2 {
@@ -239,10 +250,11 @@
     
     .resources-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 20px;
       width: 100%;
       box-sizing: border-box;
+      max-width: 100%;
     }
     
     .resource-link {
@@ -259,6 +271,13 @@
       text-align: center;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
       text-decoration: none;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      word-break: break-word;
+      hyphens: auto;
+      max-width: 100%;
+      width: 100%;
+      box-sizing: border-box;
     }
     
     .resource-link:hover {
@@ -286,6 +305,7 @@
         margin-left: 20px;
         margin-right: 20px;
         width: calc(100% - 40px);
+        max-width: calc(100% - 40px);
         box-sizing: border-box;
       }
       
@@ -294,30 +314,42 @@
         margin-left: 20px;
         margin-right: 20px;
         width: calc(100% - 40px);
+        max-width: calc(100% - 40px);
         box-sizing: border-box;
       }
       
       .resource-link {
         width: 100%;
+        max-width: 100%;
         box-sizing: border-box;
         white-space: normal;
         word-wrap: break-word;
+        word-break: break-word;
+        font-size: 1rem;
       }
       
       .resources-grid {
         grid-template-columns: 1fr;
         width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
       }
       
       #main-content {
-        padding: 20px;
+        padding: 20px 0;
         box-sizing: border-box;
         overflow-x: hidden;
+        max-width: 100%;
       }
       
       .container {
         overflow-x: hidden;
         width: 100%;
+        max-width: 100%;
+      }
+      
+      .buttons-container {
+        grid-template-columns: 1fr; /* Force single column on mobile */
       }
     }
   </style>

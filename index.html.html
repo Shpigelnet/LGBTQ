@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>מורה נבוכים: מין, מגדר ומיניות</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* Deliberately NOT using @import for fonts, using link tags instead for better mobile support */
+    
+    body, html, button, input, textarea, select {
+      font-family: 'Heebo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    h1, h2, h3, h4, h5, h6, .btn, .concept-button, .resource-link {
+      font-family: 'Heebo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+    
+    .container {
+      max-width: 100%;
+      margin: 0 auto;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    
+    /* Animated Background */
+    .animated-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: linear-gradient(45deg, #ff9a9e, #fad0c4, #c2e9fb, #a1c4fd, #fbc2eb);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+    }
+    
+    @keyframes gradient {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+    
+    /* Splash Screen */
+    #splash-screen {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    
+    .content-container {
+      background-color: white;
+      padding: 40px;
+      border-radius: 20px;
+      max-width: 80%;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    h1 {
+      font-size: 3rem;
+      color: #6c5ce7;
+      margin-bottom: 30px;
+      line-height: 1.2;
+    }
+    
+    .btn {
+      display: inline-block;
+      padding: 15px 30px;
+      background-color: #6c5ce7;
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: bold;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(108, 92, 231, 0.4);
+    }
+    
+    /* Main Content Screen */
+    #main-content {
+      display: none;
+      padding: 40px 20px;
+      width: 100%;
+      max-width: 800px;
+    }
+    
+    .section {
+      margin-bottom: 40px;
+      background-color: white;
+      border-radius: 15px;
+      padding: 50px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    h2 {
+      font-size: 2rem;
+      color: #6c5ce7;
+      margin-bottom: 15px;
+      line-height: 1.1;
+    }
+    
+    .section-description {
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      line-height: 1.7;
+    }
+    
+    .buttons-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .concept-button {
+      padding: 15px;
+      background-color: white;
+      border: 1px solid #f0f0f0;
+      border-radius: 10px;
+      color: #333;
+      font-size: 1.1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+    
+    .concept-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      border-color: #d0d0d0;
+    }
+    
+    /* Popup */
+    .popup-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .popup-container.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .popup {
+      background-color: white;
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 80%;
+      max-height: 80vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+    
+    .popup h3 {
+      font-size: 1.8rem;
+      color: #6c5ce7;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #f0f0f0;
+    }
+    
+    .popup-content {
+      font-size: 1.1rem;
+      line-height: 1.7;
+    }
+    
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #6c5ce7;
+    }
+    
+    /* Resources Section */
+    .resources-section {
+      margin-top: 40px;
+      padding: 50px;
+      background-color: #f9f6f0; /* Light beige background */
+      border-radius: 20px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .resources-section h2 {
+      margin-bottom: 10px;
+    }
+    
+    .resources-note {
+      margin-bottom: 20px;
+      font-size: 1rem;
+      color: #666;
+    }
+    
+    .resources-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    
+    .resource-link {
+      display: block;
+      padding: 15px;
+      background-color: white;
+      border: 1px solid #f0f0f0;
+      border-radius: 10px;
+      color: #333;
+      font-size: 1.1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      text-decoration: none;
+    }
+    
+    .resource-link:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      border-color: #d0d0d0;
+    }
+    
+    @media (max-width: 768px) {
+      .content-container {
+        padding: 30px;
+        max-width: 90%;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .popup {
+        max-width: 90%;
+      }
+      
+      .section {
+        padding: 30px;
+      }
+      
+      .resources-section {
+        padding: 30px;
+      }
+      
+      .resource-link {
+        width: 100%;
+      }
+      
+      .resources-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Splash Screen -->
+    <div id="splash-screen">
+      <div class="animated-background"></div>
+      <div class="content-container">
+        <h1>מורה נבוכים: מין, מגדר ומיניות</h1>
+        <button class="btn" id="enter-btn">כניסה למדריך</button>
+      </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div id="main-content">
+      <div class="animated-background"></div>
+      
+      <!-- מין -->
+      <div class="section">
+        <h2>מין (Sex)</h2>
+        <div class="section-description">
+          מין מתייחס להבדלים הביולוגיים והפיזיולוגיים בין זכרים לנקבות, כגון איברי רבייה, הורמונים וכרומוזומים. עם זאת, ישנם אנשים שנולדים עם מאפיינים ביולוגיים המאתגרים את החלוקה הבינארית לזכר/נקבה, והם מוגדרים כאינטרסקס (Intersex).
+        </div>
+      </div>
+      
+      <!-- מגדר -->
+      <div class="section">
+        <h2>מגדר (Gender)</h2>
+        <div class="section-description">
+          מגדר הוא הבנייה חברתית-תרבותית של תפקידי המין, הציפיות החברתיות והתפקידים הנתפסים של גברים ונשים. המגדר אינו זהה למין הביולוגי והוא מבוסס על זהות אישית והבניות תרבותיות. (לדוגמה: כחול לבנים, ורוד לבנות).
+        </div>
+        
+        <div class="buttons-container">
+          <button class="concept-button" data-concept="זהות מגדרית">זהות מגדרית (Gender Identity)</button>
+          <button class="concept-button" data-concept="ביטוי מגדרי">ביטוי מגדרי (Gender Expression)</button>
+          <button class="concept-button" data-concept="טרנסג'נדר">טרנסג'נדר (Transgender)</button>
+          <button class="concept-button" data-concept="סיסג'נדר">סיסג'נדר (Cisgender)</button>
+          <button class="concept-button" data-concept="לא-בינארי">לא-בינארי (Non-Binary)</button>
+        </div>
+      </div>
+      
+      <!-- דיספוריה מגדרית -->
+      <div class="section">
+        <h2>דיספוריה מגדרית (Gender Dysphoria)</h2>
+        <div class="section-description">
+          דיספוריה מגדרית היא חוויה רגשית של חוסר נוחות, מצוקה או מתח הנובעת מחוסר ההתאמה בין המין שיוחס לאדם בלידה לבין זהותו המגדרית. לא כל הטרנסג'נדרים חווים דיספוריה מגדרית, אך עבור מי שכן, היא יכולה להתבטא בתחושות נפשיות קשות ואף להשפיע על הבריאות הנפשית. לעיתים קרובות, תמיכה חברתית, הכרה בזהות המגדרית ואפשרות לגשת לטיפולים מתאימים (כגון טיפולים הורמונליים או ניתוחים) מסייעות להפחתת הדיספוריה.
+        </div>
+      </div>
+      
+      <!-- מיניות -->
+      <div class="section">
+        <h2>מיניות (Sexual Orientation)</h2>
+        <div class="section-description">
+          מיניות היא הרצף של משיכה רגשית, רומנטית ו/או מינית של אדם לאחרים.
+        </div>
+        
+        <div class="buttons-container">
+          <button class="concept-button" data-concept="הטרוסקסואליות">הטרוסקסואליות</button>
+          <button class="concept-button" data-concept="הומוסקסואליות">הומוסקסואליות</button>
+          <button class="concept-button" data-concept="ביסקסואליות">ביסקסואליות</button>
+          <button class="concept-button" data-concept="פאנסקסואליות">פאנסקסואליות</button>
+          <button class="concept-button" data-concept="א-מיניות">א-מיניות (Asexuality)</button>
+        </div>
+      </div>
+      
+      <!-- מושגים נוספים -->
+      <div class="section">
+        <h2>מושגים נוספים</h2>
+        
+        <div class="buttons-container">
+          <button class="concept-button" data-concept="קוויר">קוויר (Queer)</button>
+          <button class="concept-button" data-concept="מגדר מגובש">מגדר מגובש (Gender-Expansive)</button>
+          <button class="concept-button" data-concept="להט&quot;ב">להט"ב (LGBTQ+)</button>
+        </div>
+      </div>
+      
+      <!-- Resources Section -->
+      <div class="resources-section">
+        <h2>למיטבי לכת - המלצות העמקה, קריאה וצפייה</h2>
+        <p class="resources-note">* הקישורים נפתחים בחלונית חדשה</p>
+        <div class="resources-grid">
+          <a href="https://igy.org.il/wp-content/uploads/2022/05/%D7%93%D7%95%D7%97-%D7%9E%D7%97%D7%A7%D7%A8-%D7%90%D7%A7%D7%9C%D7%99%D7%9D-%D7%91%D7%99%D7%AA-%D7%A1%D7%A4%D7%A8%D7%99-2021.pdf" target="_blank" rel="noopener noreferrer" class="resource-link">
+            מחקר אקלים בית ספרי 2021
+          </a>
+          <a href="https://www.youtube.com/watch?v=XN-wD8O9tRI" target="_blank" rel="noopener noreferrer" class="resource-link">
+            Sex vs Gender vs Orientation
+          </a>
+          <a href="https://www.youtube.com/watch?v=UbRmb_92z-g" target="_blank" rel="noopener noreferrer" class="resource-link">
+            טרנסקידס - סדרה דוקומנטרית
+          </a>
+          <a href="https://www.kan.org.il/content/dig/digital/p-11988/" target="_blank" rel="noopener noreferrer" class="resource-link">
+            ארון הקודש - סדרת רשת דוקומנטרית
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Popup for Concepts -->
+    <div class="popup-container" id="popup-container">
+      <div class="popup">
+        <button class="close-btn" id="close-popup">&times;</button>
+        <h3 id="popup-title"></h3>
+        <div class="popup-content" id="popup-content"></div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Data for concepts
+    const conceptData = {
+      "זהות מגדרית": "הדרך בה אדם תופס ומגדיר את עצמו מבחינת מגדר, ללא קשר למין שיוחס לו בלידה.",
+      
+      "ביטוי מגדרי": "האופן שבו אדם מבטא את זהותו המגדרית כלפי חוץ, למשל באמצעות לבוש, תספורת, דיבור ושפת גוף.",
+      
+      "טרנסג'נדר": "אדם שזהותו המגדרית אינה תואמת את המין שיוחס לו בלידה.",
+      
+      "סיסג'נדר": "אדם שזהותו המגדרית תואמת את המין שיוחס לו בלידה.",
+      
+      "לא-בינארי": "אנשים שלא מזהים את עצמם באופן בלעדי כגבר או אישה, אלא מזהים את עצמם מעבר לחלוקה הבינארית של מגדר.",
+      
+      "הטרוסקסואליות": "משיכה מינית ורומנטית לאנשים מהמין השני.",
+      
+      "הומוסקסואליות": "משיכה מינית ורומנטית לאנשים מאותו המין (גברים הומואים ונשים לסביות).",
+      
+      "ביסקסואליות": "משיכה מינית ורומנטית לשני המינים.",
+      
+      "פאנסקסואליות": "משיכה מינית ורומנטית לאנשים ללא תלות בזהות המגדרית שלהם.",
+      
+      "א-מיניות": "חוסר משיכה מינית כלפי אחרים (לא בהכרח חוסר משיכה רומנטית).",
+      
+      "קוויר": "מונח פוליטי כולל לאנשים שהזהות המגדרית או הנטייה המינית שלהם אינה תואמת את ההטרוסקסואליות או את הנורמות המגדריות המסורתיות.",
+      
+      "מגדר מגובש": "מונח המתאר ילדים או מבוגרים שחווים או מבטאים את המגדר שלהם בצורה גמישה ולא תואמת את הציפיות החברתיות.",
+      
+      "להט\"ב": "ראשי תיבות של לסביות, הומואים, טרנסג'נדרים, ביסקסואלים וקוויר, ולעיתים מוסיפים סימן פלוס (+) לציון זהויות נוספות כמו אינטרסקס, א-מיניים ועוד."
+    };
+    
+    // DOM elements
+    const splashScreen = document.getElementById('splash-screen');
+    const mainContent = document.getElementById('main-content');
+    const enterBtn = document.getElementById('enter-btn');
+    const popupContainer = document.getElementById('popup-container');
+    const closePopupBtn = document.getElementById('close-popup');
+    const popupTitle = document.getElementById('popup-title');
+    const popupContent = document.getElementById('popup-content');
+    const conceptButtons = document.querySelectorAll('.concept-button');
+    
+    // Event listeners
+    enterBtn.addEventListener('click', () => {
+      splashScreen.style.display = 'none';
+      mainContent.style.display = 'block';
+    });
+    
+    conceptButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const concept = button.getAttribute('data-concept');
+        popupTitle.textContent = button.textContent;
+        popupContent.textContent = conceptData[concept];
+        popupContainer.classList.add('show');
+      });
+    });
+    
+    closePopupBtn.addEventListener('click', () => {
+      popupContainer.classList.remove('show');
+    });
+    
+    // Close popup when clicking outside
+    popupContainer.addEventListener('click', (e) => {
+      if (e.target === popupContainer) {
+        popupContainer.classList.remove('show');
+      }
+    });
+  </script>
+</body>
+</html>
